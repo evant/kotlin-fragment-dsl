@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.app.FragmentTransaction.*
 import android.view.View
 
-@SuppressLint("CommitTransaction")
 class FragmentStackTransaction(
         private val fm: FragmentManager,
         private val containerId: Int) {
@@ -17,7 +16,7 @@ class FragmentStackTransaction(
     fun startWith(initialFragment: Fragment, optionsFun: Options.() -> Unit = {}) {
         if (fm.findFragmentById(containerId) == null) {
             fm.beginTransaction()
-                    .apply { Options(this).apply(optionsFun).apply() }
+                    .applyOptions(optionsFun)
                     .add(containerId, initialFragment)
                     .setReorderingAllowed(true)
                     .setPrimaryNavigationFragment(initialFragment)
