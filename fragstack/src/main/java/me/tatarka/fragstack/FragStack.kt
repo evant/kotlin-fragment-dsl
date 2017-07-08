@@ -14,32 +14,27 @@ class FragmentStackTransaction(
         private val fm: FragmentManager,
         private val containerId: Int) {
 
-    fun startWith(initialFragment: Fragment, async: Boolean = false, optionsFun: Options.() -> Unit = {}) {
+    fun startWith(initialFragment: Fragment, optionsFun: Options.() -> Unit = {}) {
         if (fm.findFragmentById(containerId) == null) {
             fm.beginTransaction()
                     .apply { Options(this).apply(optionsFun).apply() }
                     .add(containerId, initialFragment)
                     .setReorderingAllowed(true)
-                    .applyCommit(async)
+                    .commit()
         }
     }
 
-    fun push(fragment: Fragment, backStackName: String? = null, async: Boolean = false, optionsFun: Options.() -> Unit = {}) {
+    fun push(fragment: Fragment, backStackName: String? = null, optionsFun: Options.() -> Unit = {}) {
         fm.beginTransaction()
                 .applyOptions(optionsFun)
                 .replace(containerId, fragment)
                 .addToBackStack(backStackName)
                 .setReorderingAllowed(true)
-                .applyCommit(async)
+                .commit()
     }
 
     private inline fun FragmentTransaction.applyOptions(optionsFun: Options.() -> Unit)
             = this.apply { Options(this).apply(optionsFun).apply() }
-
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun FragmentTransaction.applyCommit(async: Boolean) {
-        this.apply { if (async) commitAllowingStateLoss() else commit() }
-    }
 
     fun pop() {
         fm.popBackStack()
