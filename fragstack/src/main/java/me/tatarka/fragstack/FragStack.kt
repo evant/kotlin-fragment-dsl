@@ -20,6 +20,7 @@ class FragmentStackTransaction(
                     .apply { Options(this).apply(optionsFun).apply() }
                     .add(containerId, initialFragment)
                     .setReorderingAllowed(true)
+                    .setPrimaryNavigationFragment(initialFragment)
                     .commit()
         }
     }
@@ -30,6 +31,7 @@ class FragmentStackTransaction(
                 .replace(containerId, fragment)
                 .addToBackStack(backStackName)
                 .setReorderingAllowed(true)
+                .setPrimaryNavigationFragment(fragment)
                 .commit()
     }
 
