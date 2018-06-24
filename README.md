@@ -1,4 +1,4 @@
-# fragstack
+# kotlin-fragment-dsl
 A nice kotlin dsl for dealing with the fragment backstack.
 
 ## Download
